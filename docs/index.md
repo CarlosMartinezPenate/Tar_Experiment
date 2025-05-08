@@ -1,6 +1,9 @@
-# 🌋 Interactive Volcano Plots
+# 🛢️ Tar Experiment Explorations
 
-Explore interactive volcano plots for DESeq2-only and combined methods.
+Explore interactive plots for the Tar Experiment 2022
+
+## 🐦‍🔥 Heatmaps
+- [Exudate vs Control Sterivex](interactive_heatmaps/heatmap_deseq2_exudate_vs_control_sterivex.html)
 
 ## 🔬 Combined Volcano Plots
 - [Control vs Exudate 11 Um](interactive_volcanoes/interactive_volcano_combined_control_vs_exudate_11_um.html)
