@@ -1,65 +1,72 @@
-prepare_volcano_data <- function(flagged_df, physeq, group_var, control_group, contrast_group, tax_level = "Genus") {
-  message("🔍 Starting prepare_volcano_data()")
+prepare_volcano_data <- function(flagged_df,
+                                 physeq,
+                                 group_var,
+                                 control_group,
+                                 contrast_group,
+                                 tax_level = "Genus") {
+  cat("🔍 Starting prepare_volcano_data()\n")
   
-  # ── Relative Abundance Calculation ──
-  relab_df <- otu_table(physeq)
-  if (!taxa_are_rows(physeq)) relab_df <- t(relab_df)
-  relab_df <- sweep(relab_df, 2, colSums(relab_df), FUN = "/")
-  relab_df <- as.data.frame(relab_df)
+  # Validate inputs
+  if (!"TaxaID" %in% colnames(flagged_df)) {
+    stop("❌ flagged_df must contain 'TaxaID' column")
+  }
   
-  meta <- data.frame(sample_data(physeq))
-  control_samples <- rownames(meta)[meta[[group_var]] == control_group]
-  contrast_samples <- rownames(meta)[meta[[group_var]] == contrast_group]
+  # Handle missing n_methods
+  if (!"n_methods" %in% names(flagged_df)) {
+    warning("⚠️ 'n_methods' not found in flagged_df. Defaulting to NA.")
+    flagged_df$n_methods <- NA
+  }
   
-  avg_relab_control <- rowMeans(relab_df[, control_samples, drop = FALSE])
-  avg_relab_contrast <- rowMeans(relab_df[, contrast_samples, drop = FALSE])
+  # Extract taxonomy table
+  tax_tab <- tax_table(physeq)
   
-  relab_df_combined <- tibble(
-    TaxaID = rownames(relab_df),
-    relab_control = avg_relab_control,
-    relab_contrast = avg_relab_contrast
-  ) %>%
-    mutate(
-      dominant_group = ifelse(relab_contrast > relab_control, "contrast", "control"),
-      avg_relab = ifelse(dominant_group == "contrast", relab_contrast, relab_control)
-    )
+  if (inherits(tax_tab, "matrix") || inherits(tax_tab, "array")) {
+    tax_tab <- as.data.frame(tax_tab)
+  } else {
+    tax_tab <- as.data.frame(as.matrix(tax_tab))
+  }
   
-  # ── Method Count ──
-  n_methods_df <- flagged_df %>%
-    filter(is_significant) %>%
-    group_by(TaxaID) %>%
-    summarise(n_methods = n_distinct(method), .groups = "drop")
+  cat("📦 Converting tax_table to matrix and then data.frame...\n")
+  cat("📏 Tax table dimensions:", dim(tax_tab), "\n")
   
-  # ── Tax Table Mapping ──
-  message("📦 Converting tax_table to matrix and then tibble...")
-  tax_df <- as(tax_table(physeq), "matrix") %>%
-    as.data.frame() %>%
-    rownames_to_column("TaxaID") %>%
-    tibble()
+  tax_tab$TaxaID <- rownames(tax_tab)
   
-  message("📏 Tax table dimensions: ", paste(dim(tax_df), collapse = " × "))
+  # Reduce tax table to desired level
+  if (!(tax_level %in% colnames(tax_tab))) {
+    stop(paste("❌ tax_level", tax_level, "not found in taxonomy table"))
+  }
+  
+  tax_sub <- tax_tab[, c("TaxaID", tax_level)]
+  colnames(tax_sub)[2] <- "TaxLabel"
+  
   cat("✅ Tax data preview:\n")
-  print(head(tax_df[, c("TaxaID", tax_level)], 3))
+  print(head(tax_sub, 3))
   
-  tax_df <- tax_df %>%
-    mutate(tax_group = .data[[tax_level]]) %>%
-    dplyr::select(TaxaID, tax_group)
+  # Merge taxonomy info
+  volcano_df <- merge(flagged_df, tax_sub, by = "TaxaID", all.x = TRUE)
   
-  # ── Join All ──
-  joined_df <- flagged_df %>%
-    left_join(relab_df_combined, by = "TaxaID") %>%
-    left_join(n_methods_df, by = "TaxaID") %>%
-    left_join(tax_df, by = "TaxaID")
+  cat("🔗 Merged taxonomy. Dimensions:\n")
+  print(dim(volcano_df))
   
-  # ── Final Clean and Rank ──
-  joined_df %>%
-    mutate(
-      adjusted_p_value = as.numeric(as.character(adjusted_p_value)),
-      score = as.numeric(as.character(score)),
-      n_methods = tidyr::replace_na(n_methods, 0)
-    ) %>%
-    group_by(TaxaID) %>%
-    arrange(adjusted_p_value, desc(abs(score)), .by_group = TRUE) %>%
-    filter(row_number() == 1) %>%
-    ungroup()
+  # Set defaults for plotting aesthetics
+  if (!"score" %in% names(volcano_df)) {
+    volcano_df$score <- volcano_df$log2FoldChange
+    cat("⚠️ No 'score' column found. Using log2FoldChange instead.\n")
+  }
+  
+  # Set significance factor
+  volcano_df$significance_label <- ifelse(volcano_df$is_significant, "Significant", "Not Significant")
+  
+  # Replace NA n_methods if needed
+  if (any(is.na(volcano_df$n_methods))) {
+    volcano_df$n_methods[is.na(volcano_df$n_methods)] <- 0
+  }
+  
+  # Final preview
+  cat("✅ Prepared volcano_df:\n")
+  print(head(volcano_df, 3))
+  
+  cat("✅ Finished prepare_volcano_data()\n")
+  
+  return(volcano_df)
 }
