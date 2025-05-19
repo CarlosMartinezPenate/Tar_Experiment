@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 prepare_volcano_data <- function(flagged_df,
                                  physeq,
@@ -12,6 +13,8 @@ prepare_volcano_data <- function(flagged_df,
     stop("❌ flagged_df must contain 'TaxaID' column")
   }
 
+=======
+>>>>>>> parent of 05ae7b2 (changes to make it work)
 prepare_volcano_data <- function(flagged_df, physeq, group_var, control_group, contrast_group, tax_level = "Genus") {
   relab_df <- otu_table(physeq)
   if (!taxa_are_rows(physeq)) relab_df <- t(relab_df)
@@ -34,6 +37,7 @@ prepare_volcano_data <- function(flagged_df, physeq, group_var, control_group, c
     tax_tab <- as.data.frame(as.matrix(tax_tab))
   }
   
+<<<<<<< HEAD
 
   cat("📦 Converting tax_table to matrix and then data.frame...\n")
   cat("📏 Tax table dimensions:", dim(tax_tab), "\n")
@@ -80,6 +84,9 @@ prepare_volcano_data <- function(flagged_df, physeq, group_var, control_group, c
   return(volcano_df)
 
 n_methods_df <- flagged_df %>%
+=======
+  n_methods_df <- flagged_df %>%
+>>>>>>> parent of 05ae7b2 (changes to make it work)
     filter(is_significant) %>%
     group_by(TaxaID) %>%
     summarise(n_methods = n_distinct(method), .groups = "drop")
