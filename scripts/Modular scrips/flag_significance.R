@@ -1,5 +1,4 @@
 flag_significance <- function(df, thresholds) {
-<<<<<<< HEAD
   cat("🔍 Starting flag_significance() (base R version)...\n")
   cat("📐 Input dataframe dimensions:\n")
   print(dim(df))
@@ -56,7 +55,7 @@ flag_significance <- function(df, thresholds) {
   }
   
   return(df)
-=======
+
   df %>%
     mutate(method = tolower(source)) %>%
     mutate(is_significant = FALSE) %>%
@@ -69,8 +68,4 @@ flag_significance <- function(df, thresholds) {
       }
       mutate(., is_significant = ifelse(method == "lefse", !is.na(adjusted_p_value) & adjusted_p_value < thresholds$LEfSe$kruskal, is_significant))
     }
-<<<<<<< HEAD
->>>>>>> parent of 05ae7b2 (changes to make it work)
-=======
->>>>>>> parent of 05ae7b2 (changes to make it work)
 }

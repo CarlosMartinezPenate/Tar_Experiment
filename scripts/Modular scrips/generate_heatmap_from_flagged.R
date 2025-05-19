@@ -4,7 +4,6 @@ generate_heatmap_from_flagged <- function(flagged_df,
                                           contrast_group,
                                           group_var,
                                           filter_type,
-<<<<<<< HEAD
                                           transform_type = "log2",
                                           robust_only = TRUE,
                                           top_n_taxa = 50,
@@ -12,7 +11,6 @@ generate_heatmap_from_flagged <- function(flagged_df,
   cat("🧼 Starting generate_heatmap_from_flagged()\n")
   cat("📋 Input flagged_df dimensions:", dim(flagged_df), "\n")
   cat("📁 Intended save_path:", save_path, "\n")
-  
   if (robust_only && "is_significant" %in% names(flagged_df)) {
     flagged_df <- flagged_df[flagged_df$is_significant == TRUE, ]
     if (nrow(flagged_df) == 0) {
@@ -27,7 +25,7 @@ generate_heatmap_from_flagged <- function(flagged_df,
   if (ntaxa(physeq_sig) == 0 || nsamples(physeq_sig) == 0) {
     warning("⚠️ No taxa or samples in subset phyloseq object. Skipping heatmap.")
     return(NULL)
-=======
+
                                           transform_type = "log",
                                           save_path = NULL) {
   message("🧼 Subsetting phyloseq for heatmap...")
@@ -46,28 +44,26 @@ generate_heatmap_from_flagged <- function(flagged_df,
     physeq_subset <- phyloseq::transform_sample_counts(physeq_subset, function(x) log1p(x))
   } else if (transform_type == "clr") {
     stop("CLR transformation not implemented yet in this function.")
->>>>>>> parent of 05ae7b2 (changes to make it work)
+
   }
   
-<<<<<<< HEAD
+
   mat <- as(otu_table(physeq_sig), "matrix")
   if (!taxa_are_rows(physeq_sig)) mat <- t(mat)
   mat <- sweep(mat, 2, colSums(mat), FUN = "/")
   mat[is.na(mat)] <- 0
   
-<<<<<<< HEAD
+
   if (transform_type == "log2") {
     mat <- log2(mat + 1e-6)
   } else if (transform_type == "zscore") {
     mat <- t(scale(t(mat)))
   } else if (transform_type != "ra") {
     warning("⚠️ Unknown transform_type. Defaulting to relative abundance.")
-=======
-=======
+
   # Create matrix
   mat <- as(phyloseq::otu_table(physeq_subset), "matrix")
   
->>>>>>> parent of 05ae7b2 (changes to make it work)
   # Reorder samples based on metadata
   sample_metadata <- phyloseq::sample_data(physeq_subset)[[group_var]]
   sample_order <- order(sample_metadata)
@@ -81,7 +77,6 @@ generate_heatmap_from_flagged <- function(flagged_df,
   if (nrow(mat) == 0 || ncol(mat) == 0 || all(is.na(mat))) {
     warning("❌ Heatmap matrix has zero dimensions or all NA — skipping.")
     return(invisible(NULL))
->>>>>>> parent of 05ae7b2 (changes to make it work)
   }
   
   if (!is.null(top_n_taxa) && top_n_taxa > 0 && nrow(mat) > top_n_taxa) {
