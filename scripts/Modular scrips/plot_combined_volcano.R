@@ -1,5 +1,7 @@
 # Ensure the pals package is loaded
-# library(pals) # Or use pals:: explicitly
+library(pals) 
+
+# Or use pals:: explicitly
 
 plot_combined_volcano <- function(
     volcano_df,
@@ -110,12 +112,12 @@ plot_combined_volcano <- function(
       title = title
     ) +
     theme_minimal() + theme(
-    legend.key.size = unit(0.4, "cm"),
-    legend.spacing.y = unit(0.2, "cm"),
-    legend.text = element_text(size = 8),
-    legend.title = element_text(size = 9),
-    legend.position = "right"
-  )
+      legend.key.size = unit(0.4, "cm"),
+      legend.spacing.y = unit(0.2, "cm"),
+      legend.text = element_text(size = 8),
+      legend.title = element_text(size = 9),
+      legend.position = "right"
+    )
   
   # ── Print plot for interactive use ──
   if (interactive()) {
