@@ -1,5 +1,4 @@
 
-
 prepare_volcano_data <- function(flagged_df,
                                  physeq,
                                  group_var,
@@ -81,7 +80,7 @@ prepare_volcano_data <- function(flagged_df, physeq, group_var, control_group, c
   return(volcano_df)
 
 
-  n_methods_df <- flagged_df %>%
+    n_methods_df <- flagged_df %>%
     filter(is_significant) %>%
     group_by(TaxaID) %>%
     summarise(n_methods = n_distinct(method), .groups = "drop")

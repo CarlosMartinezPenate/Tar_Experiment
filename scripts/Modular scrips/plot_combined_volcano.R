@@ -1,5 +1,3 @@
-
-
 # Ensure the pals package is loaded
 library(pals) 
 
@@ -66,8 +64,6 @@ plot_combined_volcano <- function(
       legend.position = "right"
     )
 
-
-    theme_minimal()
 
   
   print(p)
