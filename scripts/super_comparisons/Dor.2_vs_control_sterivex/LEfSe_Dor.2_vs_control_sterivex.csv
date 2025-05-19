@@ -1,0 +1,8 @@
+"TaxaID","method","score","adjusted_p_value","significant","Names","scores","Kingdom","Phylum","Class","Order","Family","Genus","Species"
+"ASV236","LEfSe",3.65634815038833,0.146793087308571,TRUE,"ASV236",3.65634815038833,"Bacteria","Bacteroidota","Bacteroidia","Flavobacteriales","Flavobacteriaceae","Aurantivirga",NA
+"ASV448","LEfSe",3.78586173353657,0.146793087308571,TRUE,"ASV448",3.78586173353657,"Bacteria","Bacteroidota","Bacteroidia","Flavobacteriales","Flavobacteriaceae","NS3a marine group",NA
+"ASV180","LEfSe",3.78724510639803,0.146793087308571,TRUE,"ASV180",3.78724510639803,"Bacteria","Proteobacteria","Gammaproteobacteria","Enterobacterales","Pseudoalteromonadaceae","Pseudoalteromonas",NA
+"ASV357","LEfSe",3.90114871794673,0.0796254618186273,TRUE,"ASV357",3.90114871794673,"Bacteria","Bacteroidota","Bacteroidia","Flavobacteriales","Flavobacteriaceae","Dokdonia",NA
+"ASV171","LEfSe",3.95489564364438,0.0796254618186273,TRUE,"ASV171",3.95489564364438,"Bacteria","Bacteroidota","Bacteroidia","Flavobacteriales","Flavobacteriaceae","NS5 marine group",NA
+"ASV168","LEfSe",4.00063119414097,0.0796254618186273,TRUE,"ASV168",4.00063119414097,"Bacteria","Proteobacteria","Gammaproteobacteria","Pseudomonadales","Saccharospirillaceae","Oleibacter",NA
+"ASV536","LEfSe",4.32310041047638,0.0796254618186273,TRUE,"ASV536",4.32310041047638,"Bacteria","Proteobacteria","Gammaproteobacteria","Enterobacterales","Psychromonadaceae","Agarivorans","albus"

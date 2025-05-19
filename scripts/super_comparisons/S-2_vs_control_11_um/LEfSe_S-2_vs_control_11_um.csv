@@ -1,0 +1,19 @@
+"TaxaID","method","score","adjusted_p_value","significant","Names","scores","Kingdom","Phylum","Class","Order","Family","Genus","Species"
+"ASV1","LEfSe",-4.15189042790311,0.0832645166635506,TRUE,"ASV1",-4.15189042790311,"Bacteria","Proteobacteria","Alphaproteobacteria","SAR11 clade","Clade I","Clade Ia",NA
+"ASV3","LEfSe",-3.94827081314034,0.0832645166635506,TRUE,"ASV3",-3.94827081314034,"Bacteria","Proteobacteria","Alphaproteobacteria","SAR11 clade","Clade I","Clade Ia",NA
+"ASV5","LEfSe",-3.8672115428799,0.0832645166635506,TRUE,"ASV5",-3.8672115428799,"Bacteria","Proteobacteria","Alphaproteobacteria","SAR11 clade","Clade II",NA,NA
+"ASV6","LEfSe",-3.82582016010003,0.0832645166635506,TRUE,"ASV6",-3.82582016010003,"Bacteria","Proteobacteria","Alphaproteobacteria","SAR11 clade","Clade I","Clade Ia",NA
+"ASV71","LEfSe",3.65633024495753,0.0832645166635506,TRUE,"ASV71",3.65633024495753,"Bacteria","Proteobacteria","Gammaproteobacteria","Pseudomonadales","SAR86 clade",NA,NA
+"ASV60","LEfSe",3.69464347759227,0.0832645166635506,TRUE,"ASV60",3.69464347759227,"Bacteria","Marinimicrobia (SAR406 clade)",NA,NA,NA,NA,NA
+"ASV211","LEfSe",3.71574764102657,0.0832645166635506,TRUE,"ASV211",3.71574764102657,"Bacteria","Bacteroidota","Bacteroidia","Flavobacteriales","Flavobacteriaceae","NS4 marine group",NA
+"ASV192","LEfSe",3.73007871235047,0.0832645166635506,TRUE,"ASV192",3.73007871235047,"Bacteria","Bacteroidota","Bacteroidia","Flavobacteriales","Flavobacteriaceae","NS2b marine group",NA
+"ASV118","LEfSe",3.77795067248281,0.0832645166635506,TRUE,"ASV118",3.77795067248281,"Bacteria","Bacteroidota","Bacteroidia","Flavobacteriales","Flavobacteriaceae","NS4 marine group",NA
+"ASV1157","LEfSe",3.80042054754588,0.0832645166635506,TRUE,"ASV1157",3.80042054754588,"Bacteria","Bacteroidota","Bacteroidia","Chitinophagales","Saprospiraceae","Aureispira",NA
+"ASV37","LEfSe",3.85608624848717,0.0832645166635506,TRUE,"ASV37",3.85608624848717,"Bacteria","Cyanobacteria","Cyanobacteriia","Synechococcales","Cyanobiaceae","Synechococcus CC9902",NA
+"ASV66","LEfSe",4.02731762682785,0.0832645166635506,TRUE,"ASV66",4.02731762682785,"Bacteria","Proteobacteria","Gammaproteobacteria","Enterobacterales","Vibrionaceae","Vibrio",NA
+"ASV104","LEfSe",4.02784761981913,0.0832645166635506,TRUE,"ASV104",4.02784761981913,"Bacteria","Bacteroidota","Bacteroidia","Flavobacteriales","Flavobacteriaceae","NS2b marine group",NA
+"ASV178","LEfSe",4.13019031926603,0.0832645166635506,TRUE,"ASV178",4.13019031926603,"Bacteria","Bacteroidota","Bacteroidia","Flavobacteriales","NS9 marine group",NA,NA
+"ASV576","LEfSe",4.30362950568108,0.0832645166635506,TRUE,"ASV576",4.30362950568108,"Bacteria","Bacteroidota","Bacteroidia","Flavobacteriales","NS9 marine group",NA,NA
+"ASV92","LEfSe",4.54842089789831,0.0832645166635506,TRUE,"ASV92",4.54842089789831,"Bacteria","Verrucomicrobiota","Verrucomicrobiae","Opitutales","Puniceicoccaceae","Coraliomargarita",NA
+"ASV62","LEfSe",4.77887783251793,0.0832645166635506,TRUE,"ASV62",4.77887783251793,"Bacteria","Verrucomicrobiota","Verrucomicrobiae","Opitutales","Puniceicoccaceae","Lentimonas",NA
+"ASV102","LEfSe",4.79098590333621,0.0832645166635506,TRUE,"ASV102",4.79098590333621,"Bacteria","Bacteroidota","Bacteroidia","Flavobacteriales","NS9 marine group",NA,NA

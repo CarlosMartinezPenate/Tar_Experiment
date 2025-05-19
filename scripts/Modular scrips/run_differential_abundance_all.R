@@ -11,7 +11,7 @@ run_differential_abundance_all <- function(
     verbose = TRUE
 ) {
   message("starting run_differential_abundance_all()")
-  # ── Helper: Check if valid for plotting ──
+  
   is_plot_valid <- function(df, x_col = "score", y_col = "adjusted_p_value") {
     if (!all(c(x_col, y_col) %in% names(df))) return(FALSE)
     df <- df %>%
@@ -24,7 +24,16 @@ run_differential_abundance_all <- function(
     nrow(df) > 0
   }
   
-  # ── Metadata and Pruning ──
+  has_constant_taxa <- function(mat, group_labels) {
+    apply(mat, 1, function(taxon_vals) {
+      any(sapply(unique(group_labels), function(g) {
+        vals <- taxon_vals[group_labels == g]
+        length(unique(vals)) == 1
+      }))
+    })
+  }
+  
+  # ── Prune Data ──
   meta <- data.frame(sample_data(physeq_obj))
   meta <- meta[meta[[group_var]] %in% c(control_group, contrast_group), ]
   meta[[group_var]] <- factor(meta[[group_var]], levels = c(control_group, contrast_group))
@@ -155,65 +164,84 @@ run_differential_abundance_all <- function(
     )
     
     se_rel <- lefser::relativeAb(se_raw)
+    group_labels <- meta_df[[group_var]]
+    relab_mat <- assay(se_rel, "rel_abs")
     
-    se_input <- SummarizedExperiment::SummarizedExperiment(
-      assays = list(relab = assay(se_rel, "rel_abs")),
-      rowData = tax,
-      colData = meta_df
-    )
+    constant_taxa <- has_constant_taxa(relab_mat, group_labels)
     
-    lefse_res <- lefser::lefser(
-      se_input,
-      groupCol = group_var,
-      kruskal.threshold = thresholds$LEfSe$kruskal,
-      lda.threshold = thresholds$LEfSe$lda,
-      method = "fdr",
-      assay = "relab"
-    )
-    
-    kw_pvals <- apply(assay(se_input, "relab"), 1, function(x) {
-      kruskal.test(x ~ colData(se_input)[[group_var]])$p.value
-    })
-    
-    volcano_df <- as_tibble(lefse_res) %>%
-      mutate(
-        adjusted_p_value = p.adjust(kw_pvals[Names], method = "fdr"),
-        method = "LEfSe",
-        score = scores,
-        TaxaID = Names,
-        significant = adjusted_p_value < thresholds$LEfSe$kruskal & abs(score) >= thresholds$LEfSe$lda
-      ) %>%
-      left_join(tax %>% rownames_to_column("TaxaID"), by = "TaxaID") %>%
-      relocate(TaxaID, method, score, adjusted_p_value, significant) %>%
-      filter(abs(score) >= thresholds$LEfSe$lda)
-    
-    write.csv(
-      volcano_df,
-      file.path(output_dir, sprintf("LEfSe_%s_vs_%s_%s.csv", contrast_group, control_group, filter_type)),
-      row.names = FALSE
-    )
-    result_list$LEfSe <- volcano_df
-    if (verbose) message("✅ LEfSe completed.")
-    
-    if (plot && is_plot_valid(volcano_df)) {
-      p <- ggplot(volcano_df, aes(x = score, y = -log10(adjusted_p_value))) +
-        geom_point(aes(color = significant), alpha = 0.6) +
-        geom_hline(yintercept = -log10(thresholds$LEfSe$kruskal), linetype = "dashed") +
-        geom_vline(xintercept = c(-thresholds$LEfSe$lda, thresholds$LEfSe$lda), linetype = "dotted", color = "gray") +
-        geom_text_repel(data = filter(volcano_df, significant), aes(label = TaxaID), size = 3, max.overlaps = 15) +
-        scale_color_manual(values = c("black", "blue")) +
-        labs(
-          title = sprintf("LEfSe: %s vs %s - %s", contrast_group, control_group, filter_type),
-          x = "LDA Score", y = "-log10 KW P-value"
-        ) +
-        theme_minimal()
-      
-      ggsave(
-        file.path(output_dir, sprintf("LEfSe_volcano_%s_vs_%s_%s.png", contrast_group, control_group, filter_type)),
-        plot = p, width = 6, height = 4
+    if (all(constant_taxa)) {
+      message(sprintf("⛔ Skipping LEfSe: all taxa are constant in %s vs %s (%s)", contrast_group, control_group, filter_type))
+      result_list$LEfSe <- tibble()
+    } else {
+      relab_mat <- relab_mat[!constant_taxa, , drop = FALSE]
+      se_input <- SummarizedExperiment::SummarizedExperiment(
+        assays = list(relab = relab_mat),
+        rowData = rowData(se_rel)[!constant_taxa, , drop = FALSE],
+        colData = colData(se_rel)
       )
-    } else if (verbose) {
-      message(sprintf("⚠️ Skipping volcano plot for LEfSe: %s vs %s (%s) — no valid data points.", contrast_group, control_group, filter_type))
+      
+      lefse_res <- tryCatch({
+        lefser::lefser(
+          se_input,
+          groupCol = group_var,
+          kruskal.threshold = thresholds$LEfSe$kruskal,
+          lda.threshold = thresholds$LEfSe$lda,
+          method = "fdr",
+          assay = "relab"
+        )
+      }, error = function(e) {
+        message(sprintf("❌ LEfSe failed for %s vs %s (%s): %s", contrast_group, control_group, filter_type, e$message))
+        return(NULL)
+      })
+      
+      if (!is.null(lefse_res)) {
+        kw_pvals <- apply(relab_mat, 1, function(x) {
+          kruskal.test(x ~ group_labels)$p.value
+        })
+        
+        volcano_df <- as_tibble(lefse_res) %>%
+          mutate(
+            adjusted_p_value = p.adjust(kw_pvals[Names], method = "fdr"),
+            method = "LEfSe",
+            score = scores,
+            TaxaID = Names,
+            significant = adjusted_p_value < thresholds$LEfSe$kruskal & abs(score) >= thresholds$LEfSe$lda
+          ) %>%
+          left_join(tax %>% rownames_to_column("TaxaID"), by = "TaxaID") %>%
+          relocate(TaxaID, method, score, adjusted_p_value, significant) %>%
+          filter(abs(score) >= thresholds$LEfSe$lda)
+        
+        write.csv(
+          volcano_df,
+          file.path(output_dir, sprintf("LEfSe_%s_vs_%s_%s.csv", contrast_group, control_group, filter_type)),
+          row.names = FALSE
+        )
+        result_list$LEfSe <- volcano_df
+        if (verbose) message("✅ LEfSe completed.")
+        
+        if (plot && is_plot_valid(volcano_df)) {
+          p <- ggplot(volcano_df, aes(x = score, y = -log10(adjusted_p_value))) +
+            geom_point(aes(color = significant), alpha = 0.6) +
+            geom_hline(yintercept = -log10(thresholds$LEfSe$kruskal), linetype = "dashed") +
+            geom_vline(xintercept = c(-thresholds$LEfSe$lda, thresholds$LEfSe$lda), linetype = "dotted", color = "gray") +
+            geom_text_repel(data = filter(volcano_df, significant), aes(label = TaxaID), size = 3, max.overlaps = 15) +
+            scale_color_manual(values = c("black", "blue")) +
+            labs(
+              title = sprintf("LEfSe: %s vs %s - %s", contrast_group, control_group, filter_type),
+              x = "LDA Score", y = "-log10 KW P-value"
+            ) +
+            theme_minimal()
+          
+          ggsave(
+            file.path(output_dir, sprintf("LEfSe_volcano_%s_vs_%s_%s.png", contrast_group, control_group, filter_type)),
+            plot = p, width = 6, height = 4
+          )
+        } else if (verbose) {
+          message(sprintf("⚠️ Skipping volcano plot for LEfSe: %s vs %s (%s) — no valid data points.", contrast_group, control_group, filter_type))
+        }
+      } else {
+        result_list$LEfSe <- tibble()
+      }
     }
   }
   

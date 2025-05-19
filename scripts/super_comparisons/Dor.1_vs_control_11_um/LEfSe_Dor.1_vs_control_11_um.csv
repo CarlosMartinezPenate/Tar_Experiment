@@ -1,0 +1,5 @@
+"TaxaID","method","score","adjusted_p_value","significant","Names","scores","Kingdom","Phylum","Class","Order","Family","Genus","Species"
+"ASV1047","LEfSe",4.49844079110113,0.0832645166635501,TRUE,"ASV1047",4.49844079110113,"Bacteria","Proteobacteria","Gammaproteobacteria","Pseudomonadales",NA,NA,NA
+"ASV2064","LEfSe",4.50414654227982,0.0832645166635501,TRUE,"ASV2064",4.50414654227982,"Bacteria","Proteobacteria","Gammaproteobacteria","Pseudomonadales","Marinobacteraceae","Marinobacter",NA
+"ASV522","LEfSe",4.53973458949906,0.0832645166635501,TRUE,"ASV522",4.53973458949906,"Bacteria","Bacteroidota","Bacteroidia","Flavobacteriales","Flavobacteriaceae","Salegentibacter","mishustinae"
+"ASV52","LEfSe",4.85758662232739,0.0832645166635501,TRUE,"ASV52",4.85758662232739,"Bacteria","Proteobacteria","Gammaproteobacteria","Pseudomonadales","Pseudomonadaceae","Pseudomonas",NA

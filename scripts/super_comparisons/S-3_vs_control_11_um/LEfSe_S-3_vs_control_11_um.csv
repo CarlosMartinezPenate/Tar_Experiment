@@ -1,0 +1,5 @@
+"TaxaID","method","score","adjusted_p_value","significant","Names","scores","Kingdom","Phylum","Class","Order","Family","Genus","Species"
+"ASV1407","LEfSe",4.2957192092087,0.0832645166635501,TRUE,"ASV1407",4.2957192092087,"Bacteria","Proteobacteria","Alphaproteobacteria","Rickettsiales","Fokiniaceae","MD3-55",NA
+"ASV1010","LEfSe",4.55331717068933,0.0832645166635501,TRUE,"ASV1010",4.55331717068933,"Bacteria","Bacteroidota","Bacteroidia","Flavobacteriales","Crocinitomicaceae",NA,NA
+"ASV613","LEfSe",4.64718051248043,0.0832645166635501,TRUE,"ASV613",4.64718051248043,"Bacteria","Proteobacteria","Gammaproteobacteria","Arenicellales","Arenicellaceae","HTCC5015",NA
+"ASV246","LEfSe",4.64857670837768,0.0832645166635501,TRUE,"ASV246",4.64857670837768,"Bacteria","Proteobacteria","Gammaproteobacteria","Enterobacterales","Vibrionaceae","Vibrio",NA

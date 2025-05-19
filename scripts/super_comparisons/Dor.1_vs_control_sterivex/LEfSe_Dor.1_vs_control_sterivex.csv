@@ -1,0 +1,14 @@
+"TaxaID","method","score","adjusted_p_value","significant","Names","scores","Kingdom","Phylum","Class","Order","Family","Genus","Species"
+"ASV448","LEfSe",3.53440999198304,0.146793087308571,TRUE,"ASV448",3.53440999198304,"Bacteria","Bacteroidota","Bacteroidia","Flavobacteriales","Flavobacteriaceae","NS3a marine group",NA
+"ASV1014","LEfSe",3.81112701769082,0.0537730391502418,TRUE,"ASV1014",3.81112701769082,"Bacteria","Proteobacteria","Gammaproteobacteria","Enterobacterales","Psychromonadaceae","Agarivorans",NA
+"ASV172","LEfSe",3.81202128990237,0.0537730391502418,TRUE,"ASV172",3.81202128990237,"Bacteria","Proteobacteria","Alphaproteobacteria","Rhizobiales","Rhizobiaceae","Jiella","aquimaris"
+"ASV180","LEfSe",3.81518395647057,0.146793087308571,TRUE,"ASV180",3.81518395647057,"Bacteria","Proteobacteria","Gammaproteobacteria","Enterobacterales","Pseudoalteromonadaceae","Pseudoalteromonas",NA
+"ASV1002","LEfSe",3.82570476033866,0.0537730391502418,TRUE,"ASV1002",3.82570476033866,"Bacteria","Bacteroidota","Bacteroidia","Bacteroidales","Bacteroidetes BD2-2",NA,NA
+"ASV1122","LEfSe",3.83639887482372,0.0537730391502418,TRUE,"ASV1122",3.83639887482372,"Bacteria","Bacteroidota","Bacteroidia","Flavobacteriales","Flavobacteriaceae","Spongiivirga",NA
+"ASV168","LEfSe",3.84476142327489,0.0537730391502418,TRUE,"ASV168",3.84476142327489,"Bacteria","Proteobacteria","Gammaproteobacteria","Pseudomonadales","Saccharospirillaceae","Oleibacter",NA
+"ASV1514","LEfSe",3.84867104099991,0.0537730391502418,TRUE,"ASV1514",3.84867104099991,"Bacteria","Proteobacteria","Alphaproteobacteria","Holosporales","Holosporaceae",NA,NA
+"ASV2090","LEfSe",3.86604840205914,0.0537730391502418,TRUE,"ASV2090",3.86604840205914,"Bacteria","Cyanobacteria","Vampirivibrionia","Vampirovibrionales",NA,NA,NA
+"ASV171","LEfSe",3.97301658092026,0.0537730391502418,TRUE,"ASV171",3.97301658092026,"Bacteria","Bacteroidota","Bacteroidia","Flavobacteriales","Flavobacteriaceae","NS5 marine group",NA
+"ASV536","LEfSe",4.194010861545,0.0537730391502418,TRUE,"ASV536",4.194010861545,"Bacteria","Proteobacteria","Gammaproteobacteria","Enterobacterales","Psychromonadaceae","Agarivorans","albus"
+"ASV654","LEfSe",4.29825970587608,0.0537730391502418,TRUE,"ASV654",4.29825970587608,"Bacteria","Proteobacteria","Alphaproteobacteria","Rhizobiales","Devosiaceae","Pelagibacterium","halotolerans"
+"ASV77","LEfSe",4.64541966983902,0.0537730391502418,TRUE,"ASV77",4.64541966983902,"Bacteria","Proteobacteria","Alphaproteobacteria","Sphingomonadales","Sphingomonadaceae","Erythrobacter",NA

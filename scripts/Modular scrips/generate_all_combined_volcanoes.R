@@ -37,11 +37,12 @@ generate_all_combined_volcanoes <- function(results_dir,
               file.path(out_dir, sprintf("volcano_data_%s_vs_%s_%s.csv", contrast_group, control_group, filter_type)),
               row.names = FALSE)
     
-    plot_combined_volcano(
-      volcano_df = volcano_ready,
-      title = sprintf("Combined Volcano: %s vs %s (%s)", contrast_group, control_group, filter_type),
-      out_path = file.path(out_dir, sprintf("combined_volcano_%s_vs_%s_%s.png", contrast_group, control_group, filter_type)),
-      label_top_n = label_top_n
-    )
+
+      plot_combined_volcano(
+        volcano_df = volcano_ready,
+        title = sprintf("Combined Volcano: %s vs %s (%s)", contrast_group, control_group, filter_type),
+        output_path = file.path(out_dir, sprintf("combined_volcano_%s_vs_%s_%s.png", contrast_group, control_group, filter_type)),
+        label_top_n = label_top_n
+      )
   }
 }
