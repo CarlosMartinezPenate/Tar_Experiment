@@ -1,9 +1,12 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Ensure the pals package is loaded
 library(pals) 
 
 # Or use pals:: explicitly
 
+=======
+>>>>>>> parent of 05ae7b2 (changes to make it work)
 =======
 >>>>>>> parent of 05ae7b2 (changes to make it work)
 plot_combined_volcano <- function(
@@ -59,6 +62,7 @@ plot_combined_volcano <- function(
       title = title
     ) +
 <<<<<<< HEAD
+<<<<<<< HEAD
     theme_minimal() + theme(
       legend.key.size = unit(0.4, "cm"),
       legend.spacing.y = unit(0.2, "cm"),
@@ -66,6 +70,9 @@ plot_combined_volcano <- function(
       legend.title = element_text(size = 9),
       legend.position = "right"
     )
+=======
+    theme_minimal()
+>>>>>>> parent of 05ae7b2 (changes to make it work)
 =======
     theme_minimal()
 >>>>>>> parent of 05ae7b2 (changes to make it work)

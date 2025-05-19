@@ -69,5 +69,8 @@ flag_significance <- function(df, thresholds) {
       }
       mutate(., is_significant = ifelse(method == "lefse", !is.na(adjusted_p_value) & adjusted_p_value < thresholds$LEfSe$kruskal, is_significant))
     }
+<<<<<<< HEAD
+>>>>>>> parent of 05ae7b2 (changes to make it work)
+=======
 >>>>>>> parent of 05ae7b2 (changes to make it work)
 }

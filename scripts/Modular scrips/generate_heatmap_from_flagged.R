@@ -49,6 +49,7 @@ generate_heatmap_from_flagged <- function(flagged_df,
 >>>>>>> parent of 05ae7b2 (changes to make it work)
   }
   
+<<<<<<< HEAD
   mat <- as(otu_table(physeq_sig), "matrix")
   if (!taxa_are_rows(physeq_sig)) mat <- t(mat)
   mat <- sweep(mat, 2, colSums(mat), FUN = "/")
@@ -62,6 +63,11 @@ generate_heatmap_from_flagged <- function(flagged_df,
   } else if (transform_type != "ra") {
     warning("⚠️ Unknown transform_type. Defaulting to relative abundance.")
 =======
+=======
+  # Create matrix
+  mat <- as(phyloseq::otu_table(physeq_subset), "matrix")
+  
+>>>>>>> parent of 05ae7b2 (changes to make it work)
   # Reorder samples based on metadata
   sample_metadata <- phyloseq::sample_data(physeq_subset)[[group_var]]
   sample_order <- order(sample_metadata)
