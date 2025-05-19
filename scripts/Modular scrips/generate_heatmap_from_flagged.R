@@ -4,6 +4,7 @@ generate_heatmap_from_flagged <- function(flagged_df,
                                           contrast_group,
                                           group_var,
                                           filter_type,
+<<<<<<< HEAD
                                           transform_type = "log2",
                                           robust_only = TRUE,
                                           top_n_taxa = 50,
@@ -26,6 +27,26 @@ generate_heatmap_from_flagged <- function(flagged_df,
   if (ntaxa(physeq_sig) == 0 || nsamples(physeq_sig) == 0) {
     warning("⚠️ No taxa or samples in subset phyloseq object. Skipping heatmap.")
     return(NULL)
+=======
+                                          transform_type = "log",
+                                          save_path = NULL) {
+  message("🧼 Subsetting phyloseq for heatmap...")
+  
+  if (nrow(flagged_df) == 0) {
+    warning("❌ No significant taxa in flagged_df — skipping heatmap.")
+    return(invisible(NULL))
+  }
+  
+  # Get vector of significant TaxaIDs
+  sig_taxa <- flagged_df$TaxaID
+  physeq_subset <- phyloseq::prune_taxa(sig_taxa, physeq)
+  
+  # Transform counts if requested
+  if (transform_type == "log") {
+    physeq_subset <- phyloseq::transform_sample_counts(physeq_subset, function(x) log1p(x))
+  } else if (transform_type == "clr") {
+    stop("CLR transformation not implemented yet in this function.")
+>>>>>>> parent of 05ae7b2 (changes to make it work)
   }
   
   mat <- as(otu_table(physeq_sig), "matrix")
@@ -33,12 +54,28 @@ generate_heatmap_from_flagged <- function(flagged_df,
   mat <- sweep(mat, 2, colSums(mat), FUN = "/")
   mat[is.na(mat)] <- 0
   
+<<<<<<< HEAD
   if (transform_type == "log2") {
     mat <- log2(mat + 1e-6)
   } else if (transform_type == "zscore") {
     mat <- t(scale(t(mat)))
   } else if (transform_type != "ra") {
     warning("⚠️ Unknown transform_type. Defaulting to relative abundance.")
+=======
+  # Reorder samples based on metadata
+  sample_metadata <- phyloseq::sample_data(physeq_subset)[[group_var]]
+  sample_order <- order(sample_metadata)
+  mat <- mat[, sample_order, drop = FALSE]
+  
+  # Diagnostics
+  message("🧪 ", nrow(mat), " taxa | ", ncol(mat), " samples in heatmap phyloseq")
+  message("📏 Heatmap matrix dimensions: ", paste(dim(mat), collapse = " × "))
+  message("🔍 Any NA? ", anyNA(mat), " | All NA? ", all(is.na(mat)))
+  
+  if (nrow(mat) == 0 || ncol(mat) == 0 || all(is.na(mat))) {
+    warning("❌ Heatmap matrix has zero dimensions or all NA — skipping.")
+    return(invisible(NULL))
+>>>>>>> parent of 05ae7b2 (changes to make it work)
   }
   
   if (!is.null(top_n_taxa) && top_n_taxa > 0 && nrow(mat) > top_n_taxa) {

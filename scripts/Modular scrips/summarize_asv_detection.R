@@ -3,10 +3,7 @@ summarize_asv_detection <- function(results_dir, save_dir = NULL) {
   library(readr)
   library(stringr)
   
-  message("🔍 Scanning for ASV results files in: ", results_dir)
-  
   files <- list.files(results_dir, pattern = "^results_asvs_.*\\.csv$", recursive = TRUE, full.names = TRUE)
-  message("📂 Found ", length(files), " result files.")
   
   summary_list <- list()
   lost_asvs_list <- list()
@@ -21,12 +18,7 @@ summarize_asv_detection <- function(results_dir, save_dir = NULL) {
     filter_type <- parts[4]
     label <- paste(contrast_group, "vs", control_group, "(", filter_type, ")")
     
-    message("📄 Processing: ", label)
     df <- read_csv(file, show_col_types = FALSE)
-    
-    # Basic diagnostics
-    cat("🧪 Preview of input data (", fname, "):\n")
-    print(head(df))
     
     asv_summary <- df %>%
       group_by(TaxaID) %>%
@@ -61,15 +53,11 @@ summarize_asv_detection <- function(results_dir, save_dir = NULL) {
   full_summary <- bind_rows(summary_list)
   lost_asvs_df <- bind_rows(lost_asvs_list)
   
-  # Show structure of return object
-  cat("\n✅ Structure of return object:\n")
-  str(list(summary = full_summary, lost_asvs = lost_asvs_df))
-  
   if (!is.null(save_dir)) {
     dir.create(save_dir, showWarnings = FALSE, recursive = TRUE)
     write_csv(full_summary, file.path(save_dir, "asv_detection_summary.csv"))
     write_csv(lost_asvs_df, file.path(save_dir, "lost_asvs_details.csv"))
-    message("💾 Saved summary and lost ASVs to ", save_dir)
+    message("✅ Saved summary and lost ASVs to ", save_dir)
   }
   
   return(list(summary = full_summary, lost_asvs = lost_asvs_df))
