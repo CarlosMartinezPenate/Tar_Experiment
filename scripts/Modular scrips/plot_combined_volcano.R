@@ -1,13 +1,9 @@
-<<<<<<< HEAD
 
 
 # Ensure the pals package is loaded
 library(pals) 
 
 # Or use pals:: explicitly
-
->>>>>>> parent of 05ae7b2 (changes to make it work)
-plot_combined_volcano <- function(
     volcano_df,
     title = "Combined Volcano Plot",
     out_path = NULL,
@@ -59,7 +55,6 @@ plot_combined_volcano <- function(
       color = "Tax Group",
       title = title
     ) +
-<<<<<<< HEAD
 
     theme_minimal() + theme(
       legend.key.size = unit(0.4, "cm"),
@@ -70,10 +65,8 @@ plot_combined_volcano <- function(
     )
 
 
-=======
     theme_minimal()
->>>>>>> parent of 05ae7b2 (changes to make it work)
-  
+
   print(p)
   
   if (!is.null(out_path)) {
