@@ -1,0 +1,51 @@
+"TaxaID","method","score","adjusted_p_value","significant","Names","scores","Kingdom","Phylum","Class","Order","Family","Genus","Species"
+"ASV76","LEfSe",-4.60264945547815,0.0832645166635506,TRUE,"ASV76",-4.60264945547815,"Bacteria","Proteobacteria","Gammaproteobacteria","Enterobacterales","Colwelliaceae","Colwellia",NA
+"ASV49","LEfSe",-4.39556986550197,0.0832645166635506,TRUE,"ASV49",-4.39556986550197,"Bacteria","Proteobacteria","Gammaproteobacteria","Enterobacterales","Colwelliaceae","Colwellia",NA
+"ASV24","LEfSe",-4.33439757007428,0.0832645166635506,TRUE,"ASV24",-4.33439757007428,"Bacteria","Proteobacteria","Alphaproteobacteria","Rhodobacterales","Rhodobacteraceae","Pseudophaeobacter",NA
+"ASV53","LEfSe",-4.3201589662418,0.0832645166635506,TRUE,"ASV53",-4.3201589662418,"Bacteria","Proteobacteria","Gammaproteobacteria","Enterobacterales","Colwelliaceae","Colwellia",NA
+"ASV175","LEfSe",-4.22241875448876,0.0832645166635506,TRUE,"ASV175",-4.22241875448876,"Bacteria","Proteobacteria","Gammaproteobacteria","Enterobacterales","Colwelliaceae","Colwellia",NA
+"ASV1","LEfSe",-4.12386699350157,0.0832645166635506,TRUE,"ASV1",-4.12386699350157,"Bacteria","Proteobacteria","Alphaproteobacteria","SAR11 clade","Clade I","Clade Ia",NA
+"ASV3","LEfSe",-3.9856208213991,0.0832645166635506,TRUE,"ASV3",-3.9856208213991,"Bacteria","Proteobacteria","Alphaproteobacteria","SAR11 clade","Clade I","Clade Ia",NA
+"ASV383","LEfSe",-3.96417751972678,0.0832645166635506,TRUE,"ASV383",-3.96417751972678,"Bacteria","Proteobacteria","Gammaproteobacteria","Pseudomonadales","Saccharospirillaceae","Oleispira",NA
+"ASV223","LEfSe",-3.93363524711978,0.0832645166635506,TRUE,"ASV223",-3.93363524711978,"Bacteria","Proteobacteria","Gammaproteobacteria","Pseudomonadales","Cellvibrionaceae","Aestuariicella",NA
+"ASV319","LEfSe",-3.89633847303798,0.0832645166635506,TRUE,"ASV319",-3.89633847303798,"Bacteria","Proteobacteria","Gammaproteobacteria","Pseudomonadales","Saccharospirillaceae","Oleispira",NA
+"ASV160","LEfSe",-3.88746409399612,0.0832645166635506,TRUE,"ASV160",-3.88746409399612,"Bacteria","Bacteroidota","Bacteroidia","Flavobacteriales","Flavobacteriaceae","Polaribacter","dokdonensis"
+"ASV795","LEfSe",-3.88073751595912,0.0832645166635506,TRUE,"ASV795",-3.88073751595912,"Bacteria","Bacteroidota","Bacteroidia","Cytophagales","Cyclobacteriaceae","Fabibacter",NA
+"ASV81","LEfSe",-3.87521245147496,0.0832645166635506,TRUE,"ASV81",-3.87521245147496,"Bacteria","Proteobacteria","Alphaproteobacteria","Rhodobacterales","Rhodobacteraceae","Pseudophaeobacter",NA
+"ASV5","LEfSe",-3.85035169459483,0.0832645166635506,TRUE,"ASV5",-3.85035169459483,"Bacteria","Proteobacteria","Alphaproteobacteria","SAR11 clade","Clade II",NA,NA
+"ASV6","LEfSe",-3.84387267535738,0.0832645166635506,TRUE,"ASV6",-3.84387267535738,"Bacteria","Proteobacteria","Alphaproteobacteria","SAR11 clade","Clade I","Clade Ia",NA
+"ASV56","LEfSe",-3.76663111719667,0.0832645166635506,TRUE,"ASV56",-3.76663111719667,"Archaea","Crenarchaeota","Nitrososphaeria","Nitrosopumilales","Nitrosopumilaceae","Candidatus Nitrosopelagicus",NA
+"ASV1133","LEfSe",-3.75887835352447,0.0832645166635506,TRUE,"ASV1133",-3.75887835352447,"Bacteria","Bacteroidota","Bacteroidia","Flavobacteriales","Flavobacteriaceae","Aurantivirga",NA
+"ASV714","LEfSe",-3.68201266886504,0.0832645166635506,TRUE,"ASV714",-3.68201266886504,"Bacteria","Proteobacteria","Gammaproteobacteria","Enterobacterales","Alteromonadaceae","Aliiglaciecola",NA
+"ASV442","LEfSe",-3.65872588250023,0.0832645166635506,TRUE,"ASV442",-3.65872588250023,"Bacteria","Proteobacteria","Gammaproteobacteria","Enterobacterales","Colwelliaceae","Colwellia","meonggei"
+"ASV50","LEfSe",-3.65677267217827,0.0832645166635506,TRUE,"ASV50",-3.65677267217827,"Bacteria","Proteobacteria","Alphaproteobacteria","Rhodobacterales","Rhodobacteraceae","Pseudophaeobacter",NA
+"ASV1194","LEfSe",-3.64272472719887,0.0832645166635506,TRUE,"ASV1194",-3.64272472719887,"Bacteria","Bacteroidota","Bacteroidia","Flavobacteriales","Flavobacteriaceae",NA,NA
+"ASV651","LEfSe",-3.63016696095099,0.0832645166635506,TRUE,"ASV651",-3.63016696095099,"Bacteria","Bacteroidota","Bacteroidia","Flavobacteriales","Flavobacteriaceae","Tenacibaculum",NA
+"ASV1253","LEfSe",-3.62754545828225,0.0832645166635506,TRUE,"ASV1253",-3.62754545828225,"Bacteria","Proteobacteria","Gammaproteobacteria","Arenicellales","Arenicellaceae","Arenicella",NA
+"ASV1328","LEfSe",-3.62175591064136,0.0832645166635506,TRUE,"ASV1328",-3.62175591064136,"Bacteria","Proteobacteria","Alphaproteobacteria","Rhodobacterales","Rhodobacteraceae",NA,NA
+"ASV1233","LEfSe",-3.60383258629144,0.0832645166635506,TRUE,"ASV1233",-3.60383258629144,"Bacteria","Proteobacteria","Gammaproteobacteria","Enterobacterales","Alteromonadaceae",NA,NA
+"ASV523","LEfSe",-3.5787871680463,0.0832645166635506,TRUE,"ASV523",-3.5787871680463,"Bacteria","Proteobacteria","Gammaproteobacteria","Enterobacterales","Colwelliaceae","Colwellia","aquaemaris"
+"ASV1415","LEfSe",-3.56957494226147,0.0832645166635506,TRUE,"ASV1415",-3.56957494226147,"Bacteria","Proteobacteria","Alphaproteobacteria","Rhodobacterales","Rhodobacteraceae","Yoonia-Loktanella",NA
+"ASV479","LEfSe",-3.55883547364549,0.0832645166635506,TRUE,"ASV479",-3.55883547364549,"Bacteria","Proteobacteria","Gammaproteobacteria","Enterobacterales","Colwelliaceae","Thalassotalea",NA
+"ASV1510","LEfSe",-3.51138648703479,0.0832645166635506,TRUE,"ASV1510",-3.51138648703479,"Bacteria","Proteobacteria","Alphaproteobacteria","Rhodobacterales","Rhodobacteraceae","Yoonia-Loktanella",NA
+"ASV60","LEfSe",3.67610807753123,0.0832645166635506,TRUE,"ASV60",3.67610807753123,"Bacteria","Marinimicrobia (SAR406 clade)",NA,NA,NA,NA,NA
+"ASV71","LEfSe",3.70134081288982,0.0832645166635506,TRUE,"ASV71",3.70134081288982,"Bacteria","Proteobacteria","Gammaproteobacteria","Pseudomonadales","SAR86 clade",NA,NA
+"ASV211","LEfSe",3.70701462582701,0.0832645166635506,TRUE,"ASV211",3.70701462582701,"Bacteria","Bacteroidota","Bacteroidia","Flavobacteriales","Flavobacteriaceae","NS4 marine group",NA
+"ASV192","LEfSe",3.76124514005831,0.0832645166635506,TRUE,"ASV192",3.76124514005831,"Bacteria","Bacteroidota","Bacteroidia","Flavobacteriales","Flavobacteriaceae","NS2b marine group",NA
+"ASV118","LEfSe",3.7910493687132,0.0832645166635506,TRUE,"ASV118",3.7910493687132,"Bacteria","Bacteroidota","Bacteroidia","Flavobacteriales","Flavobacteriaceae","NS4 marine group",NA
+"ASV1157","LEfSe",3.81280191265735,0.0832645166635506,TRUE,"ASV1157",3.81280191265735,"Bacteria","Bacteroidota","Bacteroidia","Chitinophagales","Saprospiraceae","Aureispira",NA
+"ASV37","LEfSe",3.81465962518435,0.0832645166635506,TRUE,"ASV37",3.81465962518435,"Bacteria","Cyanobacteria","Cyanobacteriia","Synechococcales","Cyanobiaceae","Synechococcus CC9902",NA
+"ASV1010","LEfSe",3.89650630329836,0.0832645166635506,TRUE,"ASV1010",3.89650630329836,"Bacteria","Bacteroidota","Bacteroidia","Flavobacteriales","Crocinitomicaceae",NA,NA
+"ASV257","LEfSe",3.90702711006338,0.0832645166635506,TRUE,"ASV257",3.90702711006338,"Bacteria","Proteobacteria","Alphaproteobacteria","Rhodobacterales","Rhodobacteraceae","Ascidiaceihabitans",NA
+"ASV1152","LEfSe",3.91888961134127,0.0832645166635506,TRUE,"ASV1152",3.91888961134127,"Bacteria","Bacteroidota","Bacteroidia","Chitinophagales","Saprospiraceae","Aureispira",NA
+"ASV66","LEfSe",4.01653445740547,0.0832645166635506,TRUE,"ASV66",4.01653445740547,"Bacteria","Proteobacteria","Gammaproteobacteria","Enterobacterales","Vibrionaceae","Vibrio",NA
+"ASV104","LEfSe",4.04818789368561,0.0832645166635506,TRUE,"ASV104",4.04818789368561,"Bacteria","Bacteroidota","Bacteroidia","Flavobacteriales","Flavobacteriaceae","NS2b marine group",NA
+"ASV391","LEfSe",4.06682869409443,0.0832645166635506,TRUE,"ASV391",4.06682869409443,"Bacteria","Verrucomicrobiota","Kiritimatiellae","Kiritimatiellales","Kiritimatiellaceae","R76-B128",NA
+"ASV178","LEfSe",4.14416822584511,0.0832645166635506,TRUE,"ASV178",4.14416822584511,"Bacteria","Bacteroidota","Bacteroidia","Flavobacteriales","NS9 marine group",NA,NA
+"ASV246","LEfSe",4.15159327294441,0.0832645166635506,TRUE,"ASV246",4.15159327294441,"Bacteria","Proteobacteria","Gammaproteobacteria","Enterobacterales","Vibrionaceae","Vibrio",NA
+"ASV946","LEfSe",4.1542577138307,0.0832645166635506,TRUE,"ASV946",4.1542577138307,"Bacteria","Bacteroidota","Bacteroidia","Flavobacteriales","Crocinitomicaceae","Crocinitomix",NA
+"ASV138","LEfSe",4.25306015066176,0.0832645166635506,TRUE,"ASV138",4.25306015066176,"Bacteria","Verrucomicrobiota","Verrucomicrobiae","Verrucomicrobiales","DEV007",NA,NA
+"ASV576","LEfSe",4.29766562916697,0.0832645166635506,TRUE,"ASV576",4.29766562916697,"Bacteria","Bacteroidota","Bacteroidia","Flavobacteriales","NS9 marine group",NA,NA
+"ASV92","LEfSe",4.5159329776486,0.0832645166635506,TRUE,"ASV92",4.5159329776486,"Bacteria","Verrucomicrobiota","Verrucomicrobiae","Opitutales","Puniceicoccaceae","Coraliomargarita",NA
+"ASV102","LEfSe",4.79815180162166,0.0832645166635506,TRUE,"ASV102",4.79815180162166,"Bacteria","Bacteroidota","Bacteroidia","Flavobacteriales","NS9 marine group",NA,NA
+"ASV62","LEfSe",4.81354341343895,0.0832645166635506,TRUE,"ASV62",4.81354341343895,"Bacteria","Verrucomicrobiota","Verrucomicrobiae","Opitutales","Puniceicoccaceae","Lentimonas",NA

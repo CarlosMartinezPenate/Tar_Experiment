@@ -1,18 +1,24 @@
+# ────────────────────────────────────────────────────────────────
+# 🌡️ Modular Heatmap Generator — ggplot-based
+# File: generate_heatmap_from_flagged_ggplot.R
+# ────────────────────────────────────────────────────────────────
 generate_heatmap_from_flagged <- function(flagged_df,
                                           physeq,
                                           control_group,
                                           contrast_group,
                                           group_var,
                                           filter_type,
-                                          transform_type = "log2",
+                                          transform_type = "log",
                                           robust_only = TRUE,
                                           top_n_taxa = 50,
                                           save_path = "heatmap.png") {
-  cat("🧼 Starting generate_heatmap_from_flagged()\n")
-  cat("📋 Input flagged_df dimensions:", dim(flagged_df), "\n")
-  cat("📁 Intended save_path:", save_path, "\n")
+  message("🧼 Starting generate_heatmap_from_flagged()")
+  message("🧾 Intended save_path: ", save_path)
+  message("📋 Input flagged_df dimensions: ", paste(dim(flagged_df), collapse = " x "))
+  
+  # 🔍 Filter robust taxa
   if (robust_only && "is_significant" %in% names(flagged_df)) {
-    flagged_df <- flagged_df[flagged_df$is_significant == TRUE, ]
+    flagged_df <- dplyr::filter(flagged_df, is_significant)
     if (nrow(flagged_df) == 0) {
       warning("⚠️ No significant taxa remain after filtering. Skipping heatmap.")
       return(NULL)
@@ -25,91 +31,72 @@ generate_heatmap_from_flagged <- function(flagged_df,
   if (ntaxa(physeq_sig) == 0 || nsamples(physeq_sig) == 0) {
     warning("⚠️ No taxa or samples in subset phyloseq object. Skipping heatmap.")
     return(NULL)
-
-                                          transform_type = "log",
-                                          save_path = NULL) {
-  message("🧼 Subsetting phyloseq for heatmap...")
-  
-  if (nrow(flagged_df) == 0) {
-    warning("❌ No significant taxa in flagged_df — skipping heatmap.")
-    return(invisible(NULL))
   }
   
-  # Get vector of significant TaxaIDs
-  sig_taxa <- flagged_df$TaxaID
-  physeq_subset <- phyloseq::prune_taxa(sig_taxa, physeq)
-  
-  # Transform counts if requested
-  if (transform_type == "log") {
-    physeq_subset <- phyloseq::transform_sample_counts(physeq_subset, function(x) log1p(x))
-  } else if (transform_type == "clr") {
-    stop("CLR transformation not implemented yet in this function.")
-
-  }
-  
-
+  # 🧮 Extract and orient matrix
   mat <- as(otu_table(physeq_sig), "matrix")
-  if (!taxa_are_rows(physeq_sig)) mat <- t(mat)
+  if (!taxa_are_rows(physeq_sig)) {
+    mat <- t(mat)
+  }
+  
+  # 🚿 Relative abundance
   mat <- sweep(mat, 2, colSums(mat), FUN = "/")
   mat[is.na(mat)] <- 0
   
-
-  if (transform_type == "log2") {
-    mat <- log2(mat + 1e-6)
+  # 🔄 Transform
+  if (transform_type == "log") {
+    mat <- log1p(mat)
   } else if (transform_type == "zscore") {
     mat <- t(scale(t(mat)))
   } else if (transform_type != "ra") {
     warning("⚠️ Unknown transform_type. Defaulting to relative abundance.")
-
-  # Create matrix
-  mat <- as(phyloseq::otu_table(physeq_subset), "matrix")
-  
-  # Reorder samples based on metadata
-  sample_metadata <- phyloseq::sample_data(physeq_subset)[[group_var]]
-  sample_order <- order(sample_metadata)
-  mat <- mat[, sample_order, drop = FALSE]
-  
-  # Diagnostics
-  message("🧪 ", nrow(mat), " taxa | ", ncol(mat), " samples in heatmap phyloseq")
-  message("📏 Heatmap matrix dimensions: ", paste(dim(mat), collapse = " × "))
-  message("🔍 Any NA? ", anyNA(mat), " | All NA? ", all(is.na(mat)))
-  
-  if (nrow(mat) == 0 || ncol(mat) == 0 || all(is.na(mat))) {
-    warning("❌ Heatmap matrix has zero dimensions or all NA — skipping.")
-    return(invisible(NULL))
   }
   
+  # 🔪 Limit to top N variable taxa
   if (!is.null(top_n_taxa) && top_n_taxa > 0 && nrow(mat) > top_n_taxa) {
     vars <- apply(mat, 1, var, na.rm = TRUE)
     top_taxa <- names(sort(vars, decreasing = TRUE))[1:top_n_taxa]
     mat <- mat[top_taxa, , drop = FALSE]
   }
   
-  df_long <- as.data.frame(mat)
-  df_long$TaxaID <- rownames(df_long)
-  df_long <- tidyr::pivot_longer(df_long, -TaxaID, names_to = "SampleID", values_to = "Abundance")
+  # 📦 Convert to tidy format
+  df_long <- as.data.frame(mat) %>%
+    tibble::rownames_to_column("TaxaID") %>%
+    tidyr::pivot_longer(-TaxaID, names_to = "SampleID", values_to = "Abundance")
   
-  meta <- data.frame(sample_data(physeq_sig))
-  meta$SampleID <- rownames(meta)
+  # 📋 Sample metadata
+  meta <- data.frame(sample_data(physeq_sig)) %>%
+    tibble::rownames_to_column("SampleID")
   
-  if (!group_var %in% names(meta)) stop("❌ group_var not found in sample_data()")
+  if (!group_var %in% names(meta)) {
+    stop("❌ group_var not found in sample_data()")
+  }
   
-  df_long <- merge(df_long, meta[, c("SampleID", group_var)], by = "SampleID")
-  names(df_long)[names(df_long) == group_var] <- "Group"
+  df_long <- dplyr::left_join(df_long, meta[, c("SampleID", group_var)], by = "SampleID")
+  colnames(df_long)[colnames(df_long) == group_var] <- "Group"
   
-  taxa_order <- aggregate(Abundance ~ TaxaID, df_long, var)
-  taxa_order <- taxa_order[order(-taxa_order$Abundance), "TaxaID"]
+  # 🧭 Ordering
+  taxa_order <- df_long %>%
+    dplyr::group_by(TaxaID) %>%
+    dplyr::summarise(var = var(Abundance, na.rm = TRUE)) %>%
+    dplyr::arrange(desc(var)) %>%
+    dplyr::pull(TaxaID)
+  
   df_long$TaxaID <- factor(df_long$TaxaID, levels = taxa_order)
-  
   df_long$SampleID <- factor(df_long$SampleID)
   
+  # 🎨 Plot
   p <- ggplot(df_long, aes(x = SampleID, y = TaxaID, fill = Abundance)) +
     geom_tile(color = "white", size = 0.1) +
-    scale_fill_gradient2(low = "navy", mid = "white", high = "firebrick", midpoint = 0) +
+    scale_fill_gradient2(
+      low = "navy", mid = "white", high = "firebrick",
+      midpoint = 0, name = transform_type
+    ) +
     theme_minimal(base_size = 10) +
     labs(
       title = sprintf("Heatmap: %s vs %s (%s)", contrast_group, control_group, filter_type),
-      x = "Sample", y = "Taxa"
+      x = "Sample",
+      y = "Taxa"
     ) +
     theme(
       axis.text.x = element_text(angle = 45, hjust = 1, size = 7),
@@ -117,12 +104,12 @@ generate_heatmap_from_flagged <- function(flagged_df,
       panel.grid = element_blank()
     )
   
+  # 💾 Save
   tryCatch({
-    if (file.exists(save_path)) unlink(save_path)
     ggsave(save_path, plot = p, width = 10, height = 6, dpi = 300)
-    cat("✅ Heatmap saved to:", save_path, "\n")
+    message("✅ Heatmap saved to: ", save_path)
   }, error = function(e) {
-    warning("❌ Failed to save heatmap:", e$message)
+    warning("❌ Failed to save heatmap: ", e$message)
   })
   
   invisible(p)

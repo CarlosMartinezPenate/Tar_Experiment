@@ -1,0 +1,7 @@
+"TaxaID","method","score","adjusted_p_value","significant","Names","scores","Kingdom","Phylum","Class","Order","Family","Genus","Species"
+"ASV1047","LEfSe",4.38625442871911,0.0832645166635501,TRUE,"ASV1047",4.38625442871911,"Bacteria","Proteobacteria","Gammaproteobacteria","Pseudomonadales",NA,NA,NA
+"ASV1401","LEfSe",4.38768147633173,0.0832645166635501,TRUE,"ASV1401",4.38768147633173,"Bacteria","Cyanobacteria","Cyanobacteriia","Cyanobacteriales","Xenococcaceae","Pleurocapsa PCC-7319",NA
+"ASV52","LEfSe",4.43727775549922,0.0832645166635501,TRUE,"ASV52",4.43727775549922,"Bacteria","Proteobacteria","Gammaproteobacteria","Pseudomonadales","Pseudomonadaceae","Pseudomonas",NA
+"ASV171","LEfSe",4.46772565152941,0.0832645166635501,TRUE,"ASV171",4.46772565152941,"Bacteria","Bacteroidota","Bacteroidia","Flavobacteriales","Flavobacteriaceae","NS5 marine group",NA
+"ASV363","LEfSe",4.53936172830087,0.0832645166635501,TRUE,"ASV363",4.53936172830087,"Bacteria","Proteobacteria","Gammaproteobacteria","Pseudomonadales","Alcanivoracaceae1","Alcanivorax","nanhaiticus"
+"ASV168","LEfSe",4.61717222046961,0.0832645166635501,TRUE,"ASV168",4.61717222046961,"Bacteria","Proteobacteria","Gammaproteobacteria","Pseudomonadales","Saccharospirillaceae","Oleibacter",NA

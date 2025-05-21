@@ -1,0 +1,23 @@
+"TaxaID","method","score","adjusted_p_value","significant","Names","scores","Kingdom","Phylum","Class","Order","Family","Genus","Species"
+"ASV4","LEfSe",-4.42689111120596,0.0671288162820623,TRUE,"ASV4",-4.42689111120596,"Bacteria","Cyanobacteria","Cyanobacteriia","Synechococcales","Cyanobiaceae","Synechococcus CC9902",NA
+"ASV2","LEfSe",-4.35802431520695,0.0671288162820623,TRUE,"ASV2",-4.35802431520695,"Bacteria","Cyanobacteria","Cyanobacteriia","Synechococcales","Cyanobiaceae","Prochlorococcus MIT9313","marinus"
+"ASV141","LEfSe",-3.64903736976282,0.0671288162820623,TRUE,"ASV141",-3.64903736976282,"Bacteria","Cyanobacteria","Cyanobacteriia","Synechococcales","Cyanobiaceae","Synechococcus CC9902",NA
+"ASV49","LEfSe",-3.57623152785123,0.0671288162820623,TRUE,"ASV49",-3.57623152785123,"Bacteria","Proteobacteria","Gammaproteobacteria","Enterobacterales","Colwelliaceae","Colwellia",NA
+"ASV13","LEfSe",-3.56812448820512,0.0671288162820623,TRUE,"ASV13",-3.56812448820512,"Bacteria","Proteobacteria","Alphaproteobacteria","SAR11 clade","Clade I","Clade Ib",NA
+"ASV111","LEfSe",-3.55899788246623,0.0671288162820623,TRUE,"ASV111",-3.55899788246623,"Bacteria","Proteobacteria","Gammaproteobacteria","Pseudomonadales","SAR86 clade",NA,NA
+"ASV53","LEfSe",-3.55021397633265,0.140049121204987,TRUE,"ASV53",-3.55021397633265,"Bacteria","Proteobacteria","Gammaproteobacteria","Enterobacterales","Colwelliaceae","Colwellia",NA
+"ASV481","LEfSe",3.50104834616004,0.0671288162820623,TRUE,"ASV481",3.50104834616004,"Bacteria","Proteobacteria","Alphaproteobacteria","Rhodobacterales","Rhodobacteraceae","Litorimicrobium",NA
+"ASV138","LEfSe",3.50535728802373,0.0671288162820623,TRUE,"ASV138",3.50535728802373,"Bacteria","Verrucomicrobiota","Verrucomicrobiae","Verrucomicrobiales","DEV007",NA,NA
+"ASV71","LEfSe",3.51955803527323,0.0671288162820623,TRUE,"ASV71",3.51955803527323,"Bacteria","Proteobacteria","Gammaproteobacteria","Pseudomonadales","SAR86 clade",NA,NA
+"ASV174","LEfSe",3.54263204975745,0.0671288162820623,TRUE,"ASV174",3.54263204975745,"Bacteria","Bacteroidota","Bacteroidia","Flavobacteriales","Flavobacteriaceae","NS4 marine group",NA
+"ASV206","LEfSe",3.55350497043672,0.0671288162820623,TRUE,"ASV206",3.55350497043672,"Bacteria","Proteobacteria","Gammaproteobacteria","Pseudomonadales","SAR86 clade",NA,NA
+"ASV65","LEfSe",3.60027545488435,0.0671288162820623,TRUE,"ASV65",3.60027545488435,"Bacteria","Proteobacteria","Alphaproteobacteria","Rhodobacterales","Rhodobacteraceae","Ascidiaceihabitans",NA
+"ASV104","LEfSe",3.60885681122196,0.0671288162820623,TRUE,"ASV104",3.60885681122196,"Bacteria","Bacteroidota","Bacteroidia","Flavobacteriales","Flavobacteriaceae","NS2b marine group",NA
+"ASV21","LEfSe",3.67330738610602,0.0671288162820623,TRUE,"ASV21",3.67330738610602,"Bacteria","Proteobacteria","Alphaproteobacteria","Rhodospirillales","AEGEAN-169 marine group",NA,NA
+"ASV115","LEfSe",3.73432016547323,0.0671288162820623,TRUE,"ASV115",3.73432016547323,"Bacteria","Actinobacteriota","Acidimicrobiia","Actinomarinales","Actinomarinaceae","Candidatus Actinomarina",NA
+"ASV69","LEfSe",3.7784097491255,0.0671288162820623,TRUE,"ASV69",3.7784097491255,"Bacteria","Proteobacteria","Alphaproteobacteria","Rhodospirillales","AEGEAN-169 marine group",NA,NA
+"ASV34","LEfSe",3.78971496936697,0.0671288162820623,TRUE,"ASV34",3.78971496936697,"Bacteria","Proteobacteria","Alphaproteobacteria","SAR11 clade","Clade IV",NA,NA
+"ASV171","LEfSe",4.00358832589538,0.0671288162820623,TRUE,"ASV171",4.00358832589538,"Bacteria","Bacteroidota","Bacteroidia","Flavobacteriales","Flavobacteriaceae","NS5 marine group",NA
+"ASV154","LEfSe",4.15644372285374,0.0671288162820623,TRUE,"ASV154",4.15644372285374,"Bacteria","Proteobacteria","Alphaproteobacteria","Rhodobacterales","Rhodobacteraceae","HIMB11",NA
+"ASV3","LEfSe",4.17008435322737,0.0671288162820623,TRUE,"ASV3",4.17008435322737,"Bacteria","Proteobacteria","Alphaproteobacteria","SAR11 clade","Clade I","Clade Ia",NA
+"ASV20","LEfSe",4.34895746694985,0.0671288162820623,TRUE,"ASV20",4.34895746694985,"Bacteria","Proteobacteria","Alphaproteobacteria","SAR11 clade","Clade I","Clade Ia",NA

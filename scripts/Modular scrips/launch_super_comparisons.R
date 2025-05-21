@@ -4,8 +4,21 @@
 
 # 📦 Load Required Libraries
 suppressPackageStartupMessages({
+
+  #Core
   library(phyloseq)
   library(tidyverse)
+  # 🧪 Differential Abundance
+  library(DESeq2)       # Required for DESeq2: DE analysis and shrinkage
+  library(ALDEx2)       # For ALDEx2 effect size and compositional DA
+  library(lefser)       # For LEfSe differential analysis
+  # 🧬 Heatmaps and Plotting
+  library(pheatmap)         # Heatmap visualization
+  library(ggrepel)          # Avoid label overlap in volcano plots
+  library(ggplot2)          # Custom plots (from tidyverse, but explicit is good)
+  library(pals)
+  # data structure:
+  library(SummarizedExperiment)  # Used to wrap data for lefser
 })
 
 message("📦 Required libraries loaded.")

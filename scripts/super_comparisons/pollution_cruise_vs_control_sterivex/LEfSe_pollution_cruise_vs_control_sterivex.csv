@@ -1,0 +1,16 @@
+"TaxaID","method","score","adjusted_p_value","significant","Names","scores","Kingdom","Phylum","Class","Order","Family","Genus","Species"
+"ASV27","LEfSe",-4.66202031295168,0.0117397569483158,TRUE,"ASV27",-4.66202031295168,"Bacteria","Proteobacteria","Gammaproteobacteria","Pseudomonadales","Saccharospirillaceae","Oceaniserpentilla",NA
+"ASV4","LEfSe",-4.55124146934632,0.0117397569483158,TRUE,"ASV4",-4.55124146934632,"Bacteria","Cyanobacteria","Cyanobacteriia","Synechococcales","Cyanobiaceae","Synechococcus CC9902",NA
+"ASV2","LEfSe",-4.38644914240206,0.0117397569483158,TRUE,"ASV2",-4.38644914240206,"Bacteria","Cyanobacteria","Cyanobacteriia","Synechococcales","Cyanobiaceae","Prochlorococcus MIT9313","marinus"
+"ASV9","LEfSe",-4.1186874146521,0.0371569648531443,TRUE,"ASV9",-4.1186874146521,"Bacteria","Proteobacteria","Gammaproteobacteria","Enterobacterales","Alteromonadaceae","Glaciecola",NA
+"ASV24","LEfSe",-3.98377662714121,0.0371569648531443,TRUE,"ASV24",-3.98377662714121,"Bacteria","Proteobacteria","Alphaproteobacteria","Rhodobacterales","Rhodobacteraceae","Pseudophaeobacter",NA
+"ASV50","LEfSe",-3.87022842256971,0.0371569648531443,TRUE,"ASV50",-3.87022842256971,"Bacteria","Proteobacteria","Alphaproteobacteria","Rhodobacterales","Rhodobacteraceae","Pseudophaeobacter",NA
+"ASV13","LEfSe",-3.76106713493345,0.0739355843666068,TRUE,"ASV13",-3.76106713493345,"Bacteria","Proteobacteria","Alphaproteobacteria","SAR11 clade","Clade I","Clade Ib",NA
+"ASV141","LEfSe",-3.63490276950258,0.0117397569483158,TRUE,"ASV141",-3.63490276950258,"Bacteria","Cyanobacteria","Cyanobacteriia","Synechococcales","Cyanobiaceae","Synechococcus CC9902",NA
+"ASV49","LEfSe",-3.5812246491748,0.0103934946921857,TRUE,"ASV49",-3.5812246491748,"Bacteria","Proteobacteria","Gammaproteobacteria","Enterobacterales","Colwelliaceae","Colwellia",NA
+"ASV53","LEfSe",-3.56403898518396,0.0117397569483158,TRUE,"ASV53",-3.56403898518396,"Bacteria","Proteobacteria","Gammaproteobacteria","Enterobacterales","Colwelliaceae","Colwellia",NA
+"ASV70","LEfSe",3.50197343928463,0.0551505040644562,TRUE,"ASV70",3.50197343928463,"Bacteria","SAR324 clade(Marine group B)",NA,NA,NA,NA,NA
+"ASV185","LEfSe",3.53313495195603,0.0117397569483158,TRUE,"ASV185",3.53313495195603,"Bacteria","Verrucomicrobiota","Verrucomicrobiae","Pedosphaerales","Pedosphaeraceae","SCGC AAA164-E04",NA
+"ASV115","LEfSe",3.54896864649745,0.0254149988715291,TRUE,"ASV115",3.54896864649745,"Bacteria","Actinobacteriota","Acidimicrobiia","Actinomarinales","Actinomarinaceae","Candidatus Actinomarina",NA
+"ASV82","LEfSe",3.57141424842572,0.0960353510013092,TRUE,"ASV82",3.57141424842572,"Bacteria","Dadabacteria","Dadabacteriia","Dadabacteriales",NA,NA,NA
+"ASV20","LEfSe",3.97341499715017,0.122822648101392,TRUE,"ASV20",3.97341499715017,"Bacteria","Proteobacteria","Alphaproteobacteria","SAR11 clade","Clade I","Clade Ia",NA

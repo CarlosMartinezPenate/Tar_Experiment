@@ -1,0 +1,11 @@
+"TaxaID","method","score","adjusted_p_value","significant","Names","scores","Kingdom","Phylum","Class","Order","Family","Genus","Species"
+"ASV506","LEfSe",3.53549515900384,0.146793087308571,TRUE,"ASV506",3.53549515900384,"Bacteria","Bacteroidota","Bacteroidia","Flavobacteriales","Flavobacteriaceae","Aurantivirga",NA
+"ASV180","LEfSe",3.59190069379016,0.146793087308571,TRUE,"ASV180",3.59190069379016,"Bacteria","Proteobacteria","Gammaproteobacteria","Enterobacterales","Pseudoalteromonadaceae","Pseudoalteromonas",NA
+"ASV448","LEfSe",3.73073092090474,0.146793087308571,TRUE,"ASV448",3.73073092090474,"Bacteria","Bacteroidota","Bacteroidia","Flavobacteriales","Flavobacteriaceae","NS3a marine group",NA
+"ASV1122","LEfSe",3.75279055347196,0.0758337731605975,TRUE,"ASV1122",3.75279055347196,"Bacteria","Bacteroidota","Bacteroidia","Flavobacteriales","Flavobacteriaceae","Spongiivirga",NA
+"ASV357","LEfSe",3.79167291465037,0.0758337731605975,TRUE,"ASV357",3.79167291465037,"Bacteria","Bacteroidota","Bacteroidia","Flavobacteriales","Flavobacteriaceae","Dokdonia",NA
+"ASV654","LEfSe",3.80563332904153,0.0758337731605975,TRUE,"ASV654",3.80563332904153,"Bacteria","Proteobacteria","Alphaproteobacteria","Rhizobiales","Devosiaceae","Pelagibacterium","halotolerans"
+"ASV168","LEfSe",3.82927763700561,0.0758337731605975,TRUE,"ASV168",3.82927763700561,"Bacteria","Proteobacteria","Gammaproteobacteria","Pseudomonadales","Saccharospirillaceae","Oleibacter",NA
+"ASV236","LEfSe",3.83743918700252,0.146793087308571,TRUE,"ASV236",3.83743918700252,"Bacteria","Bacteroidota","Bacteroidia","Flavobacteriales","Flavobacteriaceae","Aurantivirga",NA
+"ASV171","LEfSe",4.07856498961636,0.0758337731605975,TRUE,"ASV171",4.07856498961636,"Bacteria","Bacteroidota","Bacteroidia","Flavobacteriales","Flavobacteriaceae","NS5 marine group",NA
+"ASV536","LEfSe",4.34819648415814,0.0758337731605975,TRUE,"ASV536",4.34819648415814,"Bacteria","Proteobacteria","Gammaproteobacteria","Enterobacterales","Psychromonadaceae","Agarivorans","albus"

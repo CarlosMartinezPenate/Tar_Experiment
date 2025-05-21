@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-
 prepare_volcano_data <- function(flagged_df,
                                  physeq,
                                  group_var,
@@ -12,15 +10,6 @@ prepare_volcano_data <- function(flagged_df,
   if (!"TaxaID" %in% colnames(flagged_df)) {
     stop("❌ flagged_df must contain 'TaxaID' column")
   }
-
-=======
->>>>>>> parent of 05ae7b2 (changes to make it work)
-prepare_volcano_data <- function(flagged_df, physeq, group_var, control_group, contrast_group, tax_level = "Genus") {
-  relab_df <- otu_table(physeq)
-  if (!taxa_are_rows(physeq)) relab_df <- t(relab_df)
-  relab_df <- sweep(relab_df, 2, colSums(relab_df), FUN = "/")
-  relab_df <- as.data.frame(relab_df)
-
   
   # Handle missing n_methods
   if (!"n_methods" %in% names(flagged_df)) {
@@ -37,8 +26,6 @@ prepare_volcano_data <- function(flagged_df, physeq, group_var, control_group, c
     tax_tab <- as.data.frame(as.matrix(tax_tab))
   }
   
-<<<<<<< HEAD
-
   cat("📦 Converting tax_table to matrix and then data.frame...\n")
   cat("📏 Tax table dimensions:", dim(tax_tab), "\n")
   
@@ -82,33 +69,4 @@ prepare_volcano_data <- function(flagged_df, physeq, group_var, control_group, c
   cat("✅ Finished prepare_volcano_data()\n")
   
   return(volcano_df)
-
-n_methods_df <- flagged_df %>%
-=======
-  n_methods_df <- flagged_df %>%
->>>>>>> parent of 05ae7b2 (changes to make it work)
-    filter(is_significant) %>%
-    group_by(TaxaID) %>%
-    summarise(n_methods = n_distinct(method), .groups = "drop")
-  
-  tax_df <- as.data.frame(tax_table(physeq)) %>%
-    rownames_to_column("TaxaID") %>%
-    mutate(tax_group = .data[[tax_level]]) %>%
-    select(TaxaID, tax_group)
-  
-  joined_df <- flagged_df %>%
-    left_join(relab_df_combined, by = "TaxaID") %>%
-    left_join(n_methods_df, by = "TaxaID") %>%
-    left_join(tax_df, by = "TaxaID")
-  
-  joined_df %>%
-    mutate(
-      adjusted_p_value = as.numeric(as.character(adjusted_p_value)),
-      score = as.numeric(as.character(score)),
-      n_methods = tidyr::replace_na(n_methods, 0)
-    ) %>%
-    group_by(TaxaID) %>%
-    arrange(adjusted_p_value, desc(abs(score)), .by_group = TRUE) %>%
-    filter(row_number() == 1) %>%
-    ungroup()
 }

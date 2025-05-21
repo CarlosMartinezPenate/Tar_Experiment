@@ -1,124 +1,221 @@
-run_super_comparisons <- function(physeq,
-                                  control_groups,
-                                  comparison_groups,
-                                  filter_types = c("sterivex", "11_um"),
-                                  thresholds,
-                                  methods = c("DESeq2", "ALDEx2", "LEfSe"),
-                                  tax_level = "Genus",
-                                  transform_type = "log",
-                                  output_root = "./super_comparisons") {
-  group_var <- "Station_treatment"
+run_differential_abundance_all <- function(
+    physeq_obj,
+    group_var,
+    contrast_group,
+    control_group,
+    filter_type,
+    method_list,
+    thresholds,
+    output_dir,
+    plot = TRUE,
+    verbose = TRUE
+) {
+  message("starting run_differential_abundance_all()")
+  # ── Helper: Check if valid for plotting ──
+  is_plot_valid <- function(df, x_col = "score", y_col = "adjusted_p_value") {
+    if (!all(c(x_col, y_col) %in% names(df))) return(FALSE)
+    df <- df %>%
+      filter(
+        !is.na(.data[[x_col]]),
+        !is.na(.data[[y_col]]),
+        is.finite(.data[[x_col]]),
+        is.finite(.data[[y_col]])
+      )
+    nrow(df) > 0
+  }
   
-  for (control in control_groups) {
-    for (comparison in comparison_groups) {
-      for (filt in filter_types) {
+  # ── Metadata and Pruning ──
+  meta <- data.frame(sample_data(physeq_obj))
+  meta <- meta[meta[[group_var]] %in% c(control_group, contrast_group), ]
+  meta[[group_var]] <- factor(meta[[group_var]], levels = c(control_group, contrast_group))
+  sample_data(physeq_obj) <- sample_data(meta)
+  physeq_obj <- prune_samples(rownames(meta), physeq_obj)
+  physeq_obj <- prune_taxa(taxa_sums(physeq_obj) > 120, physeq_obj)
+  
+  if (nsamples(physeq_obj) == 0 || ntaxa(physeq_obj) == 0) {
+    warning(sprintf("❌ Skipping %s vs %s (%s): no data after filtering", contrast_group, control_group, filter_type))
+    return(tibble())
+  }
+  
+  result_list <- list()
+  
+  # ── DESeq2 ──
+  if ("DESeq2" %in% method_list) {
+    dds <- phyloseq::phyloseq_to_deseq2(physeq_obj, as.formula(paste("~", group_var)))
+    dds <- DESeq2::estimateSizeFactors(dds, type = "poscounts")
+    dds <- suppressMessages(DESeq2::DESeq(dds))
+    
+    coef_name <- paste0(group_var, "_", contrast_group, "_vs_", control_group)
+    res <- if (coef_name %in% resultsNames(dds)) {
+      DESeq2::lfcShrink(dds, coef = coef_name, type = "normal")
+    } else {
+      DESeq2::results(dds, contrast = c(group_var, contrast_group, control_group))
+    }
+    
+    res_df <- as.data.frame(res) %>%
+      rownames_to_column("TaxaID") %>%
+      mutate(
+        method = "DESeq2",
+        adjusted_p_value = padj,
+        score = log2FoldChange,
+        significant = adjusted_p_value < thresholds$DESeq2
+      ) %>%
+      bind_cols(as.data.frame(tax_table(physeq_obj))[.$TaxaID, , drop = FALSE])
+    
+    write.csv(
+      res_df,
+      file.path(output_dir, sprintf("DESeq2_%s_vs_%s_%s.csv", contrast_group, control_group, filter_type)),
+      row.names = FALSE
+    )
+    result_list$DESeq2 <- res_df
+    if (verbose) message("✅ DESeq2 completed.")
+    
+    if (plot && is_plot_valid(res_df)) {
+      p <- ggplot(res_df, aes(x = score, y = -log10(adjusted_p_value))) +
+        geom_point(aes(color = significant), alpha = 0.6) +
+        geom_hline(yintercept = -log10(thresholds$DESeq2), linetype = "dashed") +
+        geom_text_repel(data = filter(res_df, significant), aes(label = TaxaID), size = 3, max.overlaps = 15) +
+        scale_color_manual(values = c("black", "red")) +
+        labs(
+          title = sprintf("DESeq2: %s vs %s - %s", contrast_group, control_group, filter_type),
+          x = "Log2 Fold Change", y = "-log10 Adjusted P"
+        ) +
+        theme_minimal()
+      
+      ggsave(
+        file.path(output_dir, sprintf("DESeq2_volcano_%s_vs_%s_%s.png", contrast_group, control_group, filter_type)),
+        plot = p, width = 6, height = 4
+      )
+    }
+  }
+  
+  # ── ALDEx2 ──
+  if ("ALDEx2" %in% method_list) {
+    counts <- as.data.frame(otu_table(physeq_obj))
+    if (!taxa_are_rows(physeq_obj)) counts <- t(counts)
+    meta_df <- data.frame(sample_data(physeq_obj))
+    condition <- as.character(meta_df[[group_var]])
+    
+    if (any(table(condition) < 2)) {
+      warning(sprintf("⛔ Skipping ALDEx2: not enough replicates for comparison (%s vs %s)", control_group, contrast_group))
+    } else {
+      aldex_res <- ALDEx2::aldex(counts, conditions = condition, test = "t", effect = TRUE, denom = "all")
+      
+      aldex_df <- aldex_res %>%
+        rownames_to_column("TaxaID") %>%
+        mutate(
+          method = "ALDEx2",
+          adjusted_p_value = we.eBH,
+          score = effect,
+          significant = adjusted_p_value < thresholds$ALDEx2
+        ) %>%
+        bind_cols(as.data.frame(tax_table(physeq_obj))[.$TaxaID, , drop = FALSE])
+      
+      write.csv(
+        aldex_df,
+        file.path(output_dir, sprintf("ALDEx2_%s_vs_%s_%s.csv", contrast_group, control_group, filter_type)),
+        row.names = FALSE
+      )
+      result_list$ALDEx2 <- aldex_df
+      if (verbose) message("✅ ALDEx2 completed.")
+      
+      if (plot && is_plot_valid(aldex_df)) {
+        p <- ggplot(aldex_df, aes(x = score, y = -log10(adjusted_p_value))) +
+          geom_point(aes(color = significant), alpha = 0.6) +
+          geom_text_repel(data = filter(aldex_df, significant), aes(label = TaxaID), size = 3, max.overlaps = 15) +
+          geom_hline(yintercept = -log10(thresholds$ALDEx2), linetype = "dashed") +
+          scale_color_manual(values = c("black", "red")) +
+          labs(
+            title = sprintf("ALDEx2: %s vs %s - %s", contrast_group, control_group, filter_type),
+            x = "Effect Size", y = "-log10 Adjusted P"
+          ) +
+          theme_minimal()
         
-        comp_id <- paste0(comparison, "_vs_", control, "_", filt)
-        comp_dir <- file.path(output_root, comp_id)
-        
-        message("\n🔧 Setting up output directories for: ", comp_id)
-        make_output_dirs(
-          comp_dir,
-          control_group = control,
-          comparison_group = comparison,
-          filter_type = filt
+        ggsave(
+          file.path(output_dir, sprintf("ALDEx2_volcano_%s_vs_%s_%s.png", contrast_group, control_group, filter_type)),
+          plot = p, width = 6, height = 4
         )
-        
-        message("🚀 Starting comparison: ", comp_id)
-        
-        message("🔍 Subsetting phyloseq...")
-        phy_sub <- safe_subset_phyloseq(
-          physeq,
-          group_var = group_var,
-          control_group = control,
-          contrast_group = comparison,
-          filter_type = filt,
-          min_total_reads = 120
-        )
-        
-        if (is.null(phy_sub) || !inherits(phy_sub, "phyloseq")) {
-          message(sprintf("⛔ Skipping %s: NULL or invalid phyloseq object returned.", comp_id))
-          next
-        }
-        
-        message("📦 Phyloseq subset created.")
-        cat("📦 Subset class:\n")
-        print(class(phy_sub))
-        cat("📊 Taxa × Samples:\n")
-        print(dim(as(otu_table(phy_sub), "matrix")))
-        
-        message("📈 Running differential abundance methods: ", paste(methods, collapse = ", "))
-        da_df <- run_differential_abundance_all(
-          physeq_obj = phy_sub,
-          group_var = group_var,
-          contrast_group = comparison,
-          control_group = control,
-          filter_type = filt,
-          method_list = methods,
-          thresholds = thresholds,
-          output_dir = comp_dir,
-          plot = FALSE
-        )
-        message("✅ Differential abundance completed.")
-        
-        message("🚩 Flagging significant taxa...")
-        flagged <- flag_significance(da_df, thresholds)
-        flagged_path <- file.path(comp_dir, sprintf("results_asvs_%s_vs_%s_%s.csv", comparison, control, filt))
-        write.csv(flagged, flagged_path, row.names = FALSE)
-        message("📝 Flagged taxa written to: ", flagged_path)
-        
-        message("🧬 Preparing volcano data...")
-        volcano_df <- prepare_volcano_data(
-          flagged_df = flagged,
-          physeq = phy_sub,
-          group_var = group_var,
-          control_group = control,
-          contrast_group = comparison,
-          tax_level = tax_level
-        )
-        
-        volcano_path <- file.path(comp_dir, sprintf("volcano_%s_vs_%s_%s.png", comparison, control, filt))
-        message("🧨 Generating volcano plot...")
-        plot_combined_volcano(
-          volcano_df,
-          out_path = volcano_path,
-          title = paste("Combined Volcano:", comparison, "vs", control, "(", filt, ")")
-        )
-        message("✅ Volcano plot saved: ", volcano_path)
-        
-        if (exists("generate_deseq2_only_volcanoes_pretty")) {
-          message("🎨 Generating DESeq2-only pretty volcano plots...")
-          generate_deseq2_only_volcanoes_pretty(
-            results_dir = output_root,
-            physeq = physeq,
-            group_var = group_var,
-            tax_level = tax_level
-          )
-        }
-        
-        message("🌡️ Starting heatmap generation...")
-        heatmap_path <- file.path(comp_dir, sprintf("heatmap_%s_vs_%s_%s.png", comparison, control, filt))
-        
-        tryCatch({
-          generate_heatmap_from_flagged(
-            flagged_df = flagged,
-            physeq = phy_sub,
-            control_group = control,
-            contrast_group = comparison,
-            group_var = group_var,
-            filter_type = filt,
-            transform_type = transform_type,
-            save_path = heatmap_path
-          )
-          message("✅ Heatmap saved: ", heatmap_path)
-        }, error = function(e) {
-          warning(sprintf("❌ Heatmap generation failed for %s: %s", comp_id, e$message))
-        })
-        
-        message("🎯 Comparison finished: ", comp_id)
+      } else if (verbose) {
+        message("⚠️ Skipping ALDEx2 volcano plot — no valid points to plot.")
       }
     }
   }
   
-  message("\n🏁 All super comparisons complete.")
+  # ── LEfSe ──
+  if ("LEfSe" %in% method_list) {
+    otu <- as(otu_table(physeq_obj), "matrix")
+    if (!taxa_are_rows(physeq_obj)) otu <- t(otu)
+    tax <- as.data.frame(tax_table(physeq_obj))
+    meta_df <- data.frame(sample_data(physeq_obj))
+    
+    se_raw <- SummarizedExperiment::SummarizedExperiment(
+      assays = list(OTU = otu),
+      rowData = tax,
+      colData = meta_df
+    )
+    
+    se_rel <- lefser::relativeAb(se_raw)
+    
+    se_input <- SummarizedExperiment::SummarizedExperiment(
+      assays = list(relab = assay(se_rel, "rel_abs")),
+      rowData = tax,
+      colData = meta_df
+    )
+    
+    lefse_res <- lefser::lefser(
+      se_input,
+      groupCol = group_var,
+      kruskal.threshold = thresholds$LEfSe$kruskal,
+      lda.threshold = thresholds$LEfSe$lda,
+      method = "fdr",
+      assay = "relab"
+    )
+    
+    kw_pvals <- apply(assay(se_input, "relab"), 1, function(x) {
+      kruskal.test(x ~ colData(se_input)[[group_var]])$p.value
+    })
+    
+    volcano_df <- as_tibble(lefse_res) %>%
+      mutate(
+        adjusted_p_value = p.adjust(kw_pvals[Names], method = "fdr"),
+        method = "LEfSe",
+        score = scores,
+        TaxaID = Names,
+        significant = adjusted_p_value < thresholds$LEfSe$kruskal & abs(score) >= thresholds$LEfSe$lda
+      ) %>%
+      left_join(tax %>% rownames_to_column("TaxaID"), by = "TaxaID") %>%
+      relocate(TaxaID, method, score, adjusted_p_value, significant) %>%
+      filter(abs(score) >= thresholds$LEfSe$lda)
+    
+    write.csv(
+      volcano_df,
+      file.path(output_dir, sprintf("LEfSe_%s_vs_%s_%s.csv", contrast_group, control_group, filter_type)),
+      row.names = FALSE
+    )
+    result_list$LEfSe <- volcano_df
+    if (verbose) message("✅ LEfSe completed.")
+    
+    if (plot && is_plot_valid(volcano_df)) {
+      p <- ggplot(volcano_df, aes(x = score, y = -log10(adjusted_p_value))) +
+        geom_point(aes(color = significant), alpha = 0.6) +
+        geom_hline(yintercept = -log10(thresholds$LEfSe$kruskal), linetype = "dashed") +
+        geom_vline(xintercept = c(-thresholds$LEfSe$lda, thresholds$LEfSe$lda), linetype = "dotted", color = "gray") +
+        geom_text_repel(data = filter(volcano_df, significant), aes(label = TaxaID), size = 3, max.overlaps = 15) +
+        scale_color_manual(values = c("black", "blue")) +
+        labs(
+          title = sprintf("LEfSe: %s vs %s - %s", contrast_group, control_group, filter_type),
+          x = "LDA Score", y = "-log10 KW P-value"
+        ) +
+        theme_minimal()
+      
+      ggsave(
+        file.path(output_dir, sprintf("LEfSe_volcano_%s_vs_%s_%s.png", contrast_group, control_group, filter_type)),
+        plot = p, width = 6, height = 4
+      )
+    } else if (verbose) {
+      message(sprintf("⚠️ Skipping volcano plot for LEfSe: %s vs %s (%s) — no valid data points.", contrast_group, control_group, filter_type))
+    }
+  }
+  
+  return(bind_rows(result_list, .id = "source"))
 }
